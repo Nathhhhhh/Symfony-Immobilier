@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block title 'Gérer les biens' %}
+    
+
+{% block body %}
+<div class="bg-light p-5 rounded-lg m-3 text-center">
+    
+        <h1>Agence Lorem</h1>
+        <p> Occaecat do cupidatat amet cillum. Do officia nulla laborum minim. Quis anim veniam laboris veniam anim elit
+            adipisicing quis dolore nulla et esse et. Adipisicing aliqua esse mollit adipisicing dolor voluptate. Ullamco
+            aliqua ex labore exercitation ea mollit irure voluptate amet excepteur. Sint deserunt velit mollit anim nisi ex
+            irure commodo tempor. Enim do incididunt pariatur duis sunt occaecat aliquip aliqua magna do. 
+        </p>
+    
+</div>
+<div class="container mt-4">
+
+    <h1>Gérer les biens</h1>
+
+    {% for message in app.flashes('success') %}
+
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+
+    {% endfor %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for property in properties %}
+
+                <tr>
+                    <td> {{ property.title }}</td> </td>
+                    <td class="d-flex justify-content-evenly">  
+                        <a href="{{ path('admin.property.edit', {id: property.id}) }}" class = "btn btn-secondary"> Editer </a> 
+                        <form method="post" action="{{ path('admin.property.delete', {id: property.id}) }}" onsubmit="return confirm('Etes vous sûr de vouloir supprimer le bien ?')">
+                            <input type="hidden" name ="_method" value="DELETE" >{# _method est compris par symfony, on met dans value la method que l'on veut mettre, de base delete n'est pas dispo dans un navigateur web #}
+                            <input type="hidden" name="_token" value="{{csrf_token('delete' ~ property.id)}}">
+                            <button class="btn btn-danger"> Supprimer </button>
+                        </form>
+
+                    </td>
+                </tr>
+            {% endfor %}
+    
+        </tbody>
+
+    </table>
+
+    <div class="d-flex flex-row-reverse">
+        <a href="{{ path('admin.property.new') }}" class="btn btn-primary"> Créer un nouveau bien </a>
+    </div>
+</div>
+
+{% endblock %} 

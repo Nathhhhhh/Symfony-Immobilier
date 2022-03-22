@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Agence Lorem
+{% endblock %}
+{% block body %}
+<div class="bg-light p-5 rounded-lg m-3 text-center">
+    
+        <h1>Agence Lorem</h1>
+        <p> Occaecat do cupidatat amet cillum. Do officia nulla laborum minim. Quis anim veniam laboris veniam anim elit
+            adipisicing quis dolore nulla et esse et. Adipisicing aliqua esse mollit adipisicing dolor voluptate. Ullamco
+            aliqua ex labore exercitation ea mollit irure voluptate amet excepteur. Sint deserunt velit mollit anim nisi ex
+            irure commodo tempor. Enim do incididunt pariatur duis sunt occaecat aliquip aliqua magna do. 
+        </p>
+    
+</div>
+<div class="container">
+    <h2>Les derniers biens</h2>
+    <div class="row flex">
+    {% for property in properties %}
+
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a href="{{ path('property.show',{id: property.id, slug: property.slug}) }}"> {{ property.title }}  </a>
+                        <p class="card-text"> {{ property.city }} ({{ property.postalCode }})</p>
+                        <p class="text-primary fs-1"> {{ property.formattedPrice}} €</p>
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
