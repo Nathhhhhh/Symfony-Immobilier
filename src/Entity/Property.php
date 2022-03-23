@@ -7,8 +7,11 @@ use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[UniqueEntity('title')]
 class Property
 {
 
@@ -29,6 +32,10 @@ class Property
     private $description;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\Range(
+        min: 10,
+        max: 400
+    )]
     private $surface;
 
     #[ORM\Column(type: 'integer')]
@@ -53,6 +60,7 @@ class Property
     private $address;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Regex('/^[0-9]{5}/')]
     private $postal_code;
 
     #[ORM\Column(type: 'boolean', options: ['default' => false] )]
