@@ -85,7 +85,7 @@ class Property
 
     public function getSlug(): string
     {
-        return (new AsciiSlugger())->slug($this->title);
+        return (new AsciiSlugger())->slug($this->title); // On slugify le titre
     }
 
     public function getDescription(): ?string

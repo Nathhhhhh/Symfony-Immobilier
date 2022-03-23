@@ -14,12 +14,12 @@ class PropertyController extends AbstractController
 
 public function __construct(PropertyRepository $repository,ManagerRegistry $doctrine){
 
-        $this->repository = $repository;
-        $this->doctrine = $doctrine;
+        $this->repository = $repository; // on initialise ici le repo property
+        $this->doctrine = $doctrine; // on injecte le service doctrine pour accéder à la bdd notamment
 
 
     }
-
+    // Pour l'instant n'affiche rien
     #[Route('/biens', name:"property.index")]
     public function index(): Response
     {
@@ -28,9 +28,6 @@ public function __construct(PropertyRepository $repository,ManagerRegistry $doct
         // $property[0] -> setSold(true);
         // $em->flush();
         // dump($property);
-
-
-
 
         // $repository = $this->doctrine->getRepository(Property::class);
         // dump($repository);
@@ -58,9 +55,11 @@ public function __construct(PropertyRepository $repository,ManagerRegistry $doct
             'current_page' => 'properties'
         ]);
     }
-    
+
+
+    // Affiche un bien
     #[Route('/biens/{slug}-{id}', name:"property.show", requirements:["slug" => "[A-Za-z0-9\-]*"])]
-    public function show(string $slug, Property $property): Response
+    public function show(string $slug, Property $property): Response // Slug permet de mettre dans l'url de nom que l'on a donné au bien
     {
 
         if($property->getSlug() !== $slug)

@@ -38,8 +38,8 @@ class AdminPropertyController extends AbstractController
     {
 
         $property = new Property();
-        $form = $this->createForm(PropertyType::class,$property);
-        $form->handleRequest($request);
+        $form = $this->createForm(PropertyType::class,$property); // créé le formulaire
+        $form->handleRequest($request);// le créer vraiment
 
         if($form->isSubmitted() && $form->isValid())// dans ce sens car dans l'autre ça créée une erreur, il ne sait pas si un form non submit est valid ou pas
         {
