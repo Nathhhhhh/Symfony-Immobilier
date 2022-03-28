@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,8 +23,15 @@ public function __construct(PropertyRepository $repository,ManagerRegistry $doct
     }
     // Pour l'instant n'affiche rien
     #[Route('/biens', name:"property.index")]
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
+        $properties = $paginator->paginate(
+            $this->repository->findAllVisibleQuery(),
+            $request->query->getInt('page', 1),
+            12
+        );
+
+
         // $em = $this->doctrine->getManager();
         // $property = $this->repository->findAllVisible();
         // $property[0] -> setSold(true);
@@ -52,7 +61,8 @@ public function __construct(PropertyRepository $repository,ManagerRegistry $doct
         // $em->flush(); // Là on insert vraiment les données
 
         return $this->render('property/index.html.twig',[
-            'current_page' => 'properties'
+            'current_page' => 'properties',
+            'properties' => $properties
         ]);
     }
 

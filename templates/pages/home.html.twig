@@ -17,10 +17,10 @@
     <h2>Les derniers biens</h2>
     <div class="row flex">
     {% for property in properties %}
-
         <div class="col-3">
             <div class="card">
                 <div class="card-body">
+
                     <h3 class="card-title">
                         <a href="{{ path('property.show',{id: property.id, slug: property.slug}) }}"> {{ property.title }}  </a>
                         <p class="card-text"> {{ property.city }} ({{ property.postalCode }})</p>
