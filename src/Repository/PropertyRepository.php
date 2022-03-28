@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -54,11 +55,23 @@ class PropertyRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllVisibleQuery(): Query
+    public function findAllVisibleQuery(PropertySearch $search): Query
     {
 
-        return $this->findVisibleQuery()
-        ->getQuery();
+        $query = $this->findVisibleQuery();
+        if($search->getMaxPrice())
+        {
+            $query = $query
+                -> andWhere('p.price < :maxprice') //Il faut mettre andWhere sinon si on mets juste where et qu'on les accumule, seulement le dernier sera prit en compte
+                -> setParameter('maxprice',$search->getMaxPrice());
+        }
+        if($search->getMinSurface())
+        {
+            $query = $query
+                -> andWhere('p.surface >= :minsurface')
+                -> setParameter('minsurface',$search->getMinSurface());
+        }
+        return $query->getQuery();
     }
 
     public function findLatestProperty()
